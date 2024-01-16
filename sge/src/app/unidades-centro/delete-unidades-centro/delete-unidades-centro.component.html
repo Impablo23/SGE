@@ -1,0 +1,15 @@
+<div class="container">
+  <h3 mat-dialog-title>¿Seguro que deseas eliminar este {{ENTIDAD}}?</h3>
+  <div mat-dialog-content>
+      Código del Centro: {{unidadesCentro.id_unidad_centro}}
+      <p></p>
+      Nombre del Curso: {{unidadesCentro.unidad_centro}}
+      <p></p>
+      Código del Ciclo {{ENTIDAD}}: {{unidadesCentro.id_ciclo}}
+  </div>
+
+  <div mat-dialog-actions>
+      <button mat-button id="deleteFamilia" (click)="confirmDelete()">Eliminar {{ENTIDAD}}</button>
+      <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+  </div>
+</div>
