@@ -100,7 +100,9 @@ export class UnidadesCentroComponent implements OnInit {
   createFilter(): (unidadesCentro: UnidadesCentro, filter: string) => boolean {
     const filterFunction = (unidadesCentro: UnidadesCentro, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
-
+      if(unidadesCentro.obvervaciones==null){
+        unidadesCentro.obvervaciones="";
+      }
       return unidadesCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
         && unidadesCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
         && unidadesCentro.id_ciclo.toString().indexOf(searchTerms.id_ciclo) !== -1
