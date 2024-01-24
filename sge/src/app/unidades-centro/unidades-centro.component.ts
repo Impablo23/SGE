@@ -11,6 +11,8 @@ import { UnidadesCentroService } from '../services/unidades-centro.service';
 import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
 import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
+import { DatosBasicosUnidadesCentroComponent } from './datos-unidades-centro/datos-basicos-unidades-centro/datos-basicos-unidades-centro.component';
+import { DatosUnidadesCentroComponent } from './datos-unidades-centro/datos-unidades-centro.component';
 
 @Component({
   selector: 'app-unidades-centro',
@@ -96,6 +98,8 @@ export class UnidadesCentroComponent implements OnInit {
       }
     }
   }
+
+
 
   createFilter(): (unidadesCentro: UnidadesCentro, filter: string) => boolean {
     const filterFunction = (unidadesCentro: UnidadesCentro, filter: string): boolean => {

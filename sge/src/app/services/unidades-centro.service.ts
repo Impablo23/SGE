@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { UnidadDual } from '../shared/interfaces/unidad-dual';
 import { ApiResponse } from '../shared/interfaces/api-response';
 import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../shared/common.service';

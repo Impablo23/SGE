@@ -4,8 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EntidadesService } from 'src/app/services/entidades.service';
 import { Entidad } from 'src/app/shared/interfaces/entidad';
+
 import { CLOSE, ENTIDAD_ENTIDAD, ERROR } from '../../shared/messages';
+
 import { ProvinciasService } from 'src/app/services/provincias.service';
+
 import { Provincia } from 'src/app/shared/interfaces/provincia';
 import { ZonasService } from 'src/app/services/zonas.service';
 import { Zona } from 'src/app/shared/interfaces/zona';
@@ -107,7 +110,7 @@ export class EditEntidadComponent implements OnInit {
       this.contactos = RESPONSE.data as Contacto[];
     }
   }
-  
+
   onNoClick() {
     this.dialogRef.close({ ok: false });
   }
