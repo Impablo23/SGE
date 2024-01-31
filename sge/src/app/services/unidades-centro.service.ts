@@ -6,6 +6,7 @@ import { URL_API } from 'src/environments/environment';
 import { UnidadesCentro } from '../shared/interfaces/unidades-centro';
 
 const ENDPOINT = 'unidades_centro';
+const ENDPOINT_EDIT = 'datos_unidades_centro'
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,20 @@ const ENDPOINT = 'unidades_centro';
 export class UnidadesCentroService {
 
   unidadesCentro: UnidadesCentro[];
+  unidadCentro: UnidadesCentro;
 
   constructor(private http: HttpClient, private commonService: CommonService) { }
+
+  setUnidadCentro(unidadCentro: UnidadesCentro) {
+    this.unidadCentro = unidadCentro;
+  }
+
+  setDatosBasicosUnidadCentro(formEntidad: any){
+    this.unidadCentro.id_unidad_centro = formEntidad.id_unidad_centro;
+    this.unidadCentro.unidad_centro = formEntidad.unidad_centro;
+    this.unidadCentro.id_ciclo = formEntidad.id_ciclo;
+    this.unidadCentro.obvervaciones = formEntidad.obvervaciones;
+  }
 
   get() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
@@ -26,7 +39,7 @@ export class UnidadesCentroService {
 
   addUnidadesCentro(unidadesCentro: UnidadesCentro) {
     const body = JSON.stringify(unidadesCentro);
-    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT_EDIT}.php`, body, { headers: this.commonService.headers });
   }
 
   editUnidadesCentro(unidadesCentro: UnidadesCentro) {

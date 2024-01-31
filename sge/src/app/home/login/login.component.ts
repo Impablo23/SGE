@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
@@ -43,10 +44,14 @@ export class LoginComponent implements OnInit {
 
   async acceder() {
 
+
     if (this.loginForm.valid) {
 
       const data = this.loginForm.value;
+
+
       const RESPONSE = await this.authService.doLogin(data).toPromise();
+
         // console.log(response);
       if (RESPONSE.ok) {
         if (RESPONSE.data.token) {

@@ -1,8 +1,7 @@
-import { DatosUnidadesCentroComponent } from './datos-unidades-centro.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-
+import { DatosUnidadesCentroComponent } from './datos-unidades-centro.component';
 
 const routes: Routes = [
   {
@@ -11,15 +10,15 @@ const routes: Routes = [
     redirectTo: 'datos-entidad-reunion'
   },
   {
-    path: 'datos-basicos-unidades-centro',
-    loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosUnidadesCentroModule),
+    path: 'datos-unidades-centro',
+    loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosEntidadModule),
     outlet: 'sidebar'
   },
   {
     path: 'alumnos-unidades-centro',
-    loadChildren: () => import('./alumnos-unidades-centro/alumnos-unidades-centro.module').then(m => m.AlumnosUnidadesCentroModule),
+    loadChildren: () => import('./alumnos/alumnos.module').then(m => m.AlumnosModule),
     outlet: 'sidebar'
-  },];
+  }];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

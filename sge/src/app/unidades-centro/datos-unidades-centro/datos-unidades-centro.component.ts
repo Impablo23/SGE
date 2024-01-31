@@ -3,13 +3,13 @@ import { FormGroup, } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivationStart, Router, RouterOutlet } from '@angular/router';
-import { EntidadesService } from '../../services/entidades.service';
-import { DatosEditarEntidad } from '../../shared/interfaces/datos-editar-entidad';
 import { CLOSE } from '../../shared/messages';
+import { DatosEditarUnidadCentro } from 'src/app/shared/interfaces/datos-editar-unidad-centro';
+import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 
 
 @Component({
-  selector: 'app-datos-unidades-centro',
+  selector: 'app-datos-entidad',
   templateUrl: './datos-unidades-centro.component.html',
   styleUrls: ['./datos-unidades-centro.component.scss']
 })
@@ -22,8 +22,8 @@ export class DatosUnidadesCentroComponent implements OnInit {
 
   constructor(
             private router: Router,
-            @Inject(MAT_DIALOG_DATA) public datosEditarEntidad: DatosEditarEntidad,
-            private entidadService: EntidadesService,
+            @Inject(MAT_DIALOG_DATA) public datosEditarUnidadCentro: DatosEditarUnidadCentro,
+            private unidadCentroService: UnidadesCentroService,
             private snackBar: MatSnackBar,
             public dialogRef: MatDialogRef<DatosUnidadesCentroComponent>,
             ) { }
@@ -31,7 +31,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
   ngOnInit(): void {
     this.rutaSeleccionada = this.router.url.substring(1);
     this.rutaSeleccionada = this.rutaSeleccionada.split('/')[0];
-    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: 'datos-basicos-entidad' } }]);
+    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: 'datos-unidades-centro' } }]);
 
     this.router.events.subscribe(e => {
       if (e instanceof ActivationStart && e.snapshot.outlet !== this.lastRoute) {
@@ -39,7 +39,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
         this.outlet.deactivate();
       }
     });
-    this.entidadService.setEntidad(this.datosEditarEntidad.entidad);
+    this.unidadCentroService.setUnidadCentro(this.datosEditarUnidadCentro.unidadesCentro);
   }
 
   navega(ruta: string) {
@@ -47,10 +47,10 @@ export class DatosUnidadesCentroComponent implements OnInit {
   }
 
   async save() {
-      const RESPONSE = await this.entidadService.editEntidad(this.entidadService.entidad).toPromise();
+      const RESPONSE = await this.unidadCentroService.editUnidadesCentro(this.unidadCentroService.unidadCentro).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarEntidad.entidad});
+        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarUnidadCentro.unidadesCentro});
         //this.entidadService.entidades = (await this.entidadService.getAllEntidades().toPromise()).data;
       } else {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
@@ -58,6 +58,6 @@ export class DatosUnidadesCentroComponent implements OnInit {
     }
 
   onNoClick() {
-    this.dialogRef.close({entidad: this.datosEditarEntidad.entidad});
+    this.dialogRef.close({entidad: this.datosEditarUnidadCentro.unidadesCentro});
   }
 }

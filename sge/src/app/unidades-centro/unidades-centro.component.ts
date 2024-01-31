@@ -11,8 +11,12 @@ import { UnidadesCentroService } from '../services/unidades-centro.service';
 import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
 import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
-import { DatosBasicosUnidadesCentroComponent } from './datos-unidades-centro/datos-basicos-unidades-centro/datos-basicos-unidades-centro.component';
+import { CiclosService } from '../services/ciclos.service';
+import { Ciclo } from '../shared/interfaces/ciclo';
+
+import { SelectionModel } from '@angular/cdk/collections';
 import { DatosUnidadesCentroComponent } from './datos-unidades-centro/datos-unidades-centro.component';
+
 
 @Component({
   selector: 'app-unidades-centro',
@@ -33,6 +37,9 @@ export class UnidadesCentroComponent implements OnInit {
 
   permises: Permises;
 
+  selection: SelectionModel<UnidadesCentro>;
+  unidadCentro:UnidadesCentro;
+
   displayedColumns: string[];
   private filterValues = { id_unidad_centro: '', unidad_centro: '' ,id_ciclo: '',observaciones: ''};
 
@@ -41,7 +48,9 @@ export class UnidadesCentroComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private unidadesCentroService: UnidadesCentroService,
-    private overlay: Overlay
+    private overlay: Overlay,
+    private servicioCiclos:CiclosService,
+    private servicioUnidadesCentro: UnidadesCentroService
   ) { }
 
   ngOnInit(): void {
@@ -140,6 +149,64 @@ export class UnidadesCentroComponent implements OnInit {
         this.filterValues.observaciones = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-}
+  }
+
+  async datosUnidadCentro(unidadCentro: UnidadesCentro) {
+    const ENTIDAD = unidadCentro;
+    const CICLOS = await this.getCiclos();
+
+
+    if (ENTIDAD) {
+      const dialogRef = this.dialog.open(DatosUnidadesCentroComponent, {
+        width: '70em',
+        maxWidth: '70em',
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
+        disableClose: true,
+        data: {
+          entidad: ENTIDAD,
+          ciclo: CICLOS,
+        }
+      });
+
+      const RESULT = await dialogRef.afterClosed().toPromise();
+      await this.getEntidades();
+      /*
+      let var_reunion;
+      var_reunion = this.originalDatasource.filter(reunion => {
+        return reunion.id_reunion === RESULT.reunion.id_reunion;
+      });
+      */
+      //this.ngOnInit();
+      //this.selection = new SelectionModel<PublicacionDHL>(false, [publicacio[0]]);
+      //this.fiterEstados();
+
+      //this.selection = new SelectionModel<Reunion>(false, [publicacio[0]]);
+
+    }
+  }
+
+  async getCiclos(){
+    const RESPONSE = await this.servicioCiclos.getAllCiclos().toPromise();
+    if (RESPONSE.ok){
+      return RESPONSE.data as Ciclo[];
+    }
+  }
+
+  async getEntidades() {
+    const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();
+    this.permises = RESPONSE.permises;
+
+    if (RESPONSE.ok) {
+      this.servicioUnidadesCentro.unidadesCentro = RESPONSE.data as UnidadesCentro[];
+      this.displayedColumns = ['unidad_centro','id_ciclo','actions'];
+      this.dataSource.data = this.servicioUnidadesCentro.unidadesCentro;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.filterPredicate = this.createFilter();
+      this.selection = new SelectionModel<UnidadesCentro>(false, [this.unidadCentro]);
+
+      this.onChanges();
+    }
+  }
 
 }

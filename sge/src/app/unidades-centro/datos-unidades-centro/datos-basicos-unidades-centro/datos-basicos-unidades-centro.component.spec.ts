@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatosBasicosUnidadesCentroComponent } from './datos-basicos-unidades-centro.component';
 
-describe('DatosBasicosUnidadesCentroComponent', () => {
+describe('DatosBasicosEntidadComponent', () => {
   let component: DatosBasicosUnidadesCentroComponent;
   let fixture: ComponentFixture<DatosBasicosUnidadesCentroComponent>;
 
