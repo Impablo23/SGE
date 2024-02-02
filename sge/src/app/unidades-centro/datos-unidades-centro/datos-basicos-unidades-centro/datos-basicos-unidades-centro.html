@@ -1,7 +1,7 @@
 <div class="container">
   <h3 mat-dialog-title>Editar {{ENTIDAD}}</h3>
 
-  <form class="mat-dialog-content" [formGroup]="datosBasicosForm">
+  <form class="mat-dialog-content" [formGroup]="unidadesCentroForm" style="margin-left: 45px;">
 
       <div class="form">
         <mat-form-field color="accent">
@@ -14,7 +14,7 @@
             <mat-label>Id del Ciclo</mat-label>
             <mat-select formControlName="id_ciclo" required>
                 <mat-option value="">Sin ciclo</mat-option>
-                <mat-option *ngFor="let idC of ciclos" [value]="idC.id_ciclo">
+                <mat-option *ngFor="let idC of ciclo" [value]="idC.id_ciclo">
                     {{ idC.ciclo }}
                 </mat-option>
             </mat-select>
@@ -27,7 +27,10 @@
           </mat-form-field>
       </div>
 
-
+      <div mat-dialog-actions>
+          <button mat-button id="onSubmit" type="submit" [disabled]="!unidadesCentroForm.valid" (click)="confirmEdit()">Guardar</button>
+          <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+      </div>
 
   </form>
 </div>

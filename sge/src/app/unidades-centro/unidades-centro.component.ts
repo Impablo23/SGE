@@ -16,6 +16,7 @@ import { Ciclo } from '../shared/interfaces/ciclo';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { DatosUnidadesCentroComponent } from './datos-unidades-centro/datos-unidades-centro.component';
+import { DatosBasicosUnidadesCentroComponent } from './datos-unidades-centro/datos-basicos-unidades-centro/datos-basicos-unidades-centro.component';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class UnidadesCentroComponent implements OnInit {
     private unidadesCentroService: UnidadesCentroService,
     private overlay: Overlay,
     private servicioCiclos:CiclosService,
-    private servicioUnidadesCentro: UnidadesCentroService
+
   ) { }
 
   ngOnInit(): void {
@@ -85,7 +86,7 @@ export class UnidadesCentroComponent implements OnInit {
   }
 
   async editUnidadesCentro(unidadesCentro: UnidadesCentro) {
-    const dialogRef = this.dialog.open(EditUnidadesCentroComponent, { data: unidadesCentro, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const dialogRef = this.dialog.open(DatosUnidadesCentroComponent, { data: unidadesCentro, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
@@ -193,13 +194,13 @@ export class UnidadesCentroComponent implements OnInit {
   }
 
   async getEntidades() {
-    const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();
+    const RESPONSE = await this.unidadesCentroService.getAllUnidadesCentro().toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
-      this.servicioUnidadesCentro.unidadesCentro = RESPONSE.data as UnidadesCentro[];
+      this.unidadesCentroService.unidadesCentro = RESPONSE.data as UnidadesCentro[];
       this.displayedColumns = ['unidad_centro','id_ciclo','actions'];
-      this.dataSource.data = this.servicioUnidadesCentro.unidadesCentro;
+      this.dataSource.data = this.unidadesCentroService.unidadesCentro;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();

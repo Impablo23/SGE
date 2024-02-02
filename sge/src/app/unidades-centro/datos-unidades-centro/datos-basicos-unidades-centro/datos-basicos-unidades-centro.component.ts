@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Zona } from 'src/app/shared/interfaces/zona';
-import { Entidad } from 'src/app/shared/interfaces/entidad';
-import { Contacto } from 'src/app/shared/interfaces/contacto';
-import { TipoEntidad } from '../../../shared/interfaces/tipo-entidad';
-import { Provincia } from '../../../shared/interfaces/provincia';
-import { ENTIDAD_ENTIDAD } from '../../../shared/messages';
-import { DatosUnidadesCentroComponent } from '../datos-unidades-centro.component';
+import { CLOSE, ENTIDAD_ENTIDAD, ENTIDAD_UNIDADES_CENTRO, ERROR } from '../../../shared/messages';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
+import { CiclosService } from 'src/app/services/ciclos.service';
+import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
 
 @Component({
   selector: 'app-datos-basicos-entidad',
@@ -17,53 +16,51 @@ import { UnidadesCentroService } from 'src/app/services/unidades-centro.service'
 })
 export class DatosBasicosUnidadesCentroComponent implements OnInit {
 
-  datosBasicosForm: FormGroup;
-  ciclos: Ciclo[];
-  entidades: Entidad[];
-  zonas: Zona[];
-  tipos_entidad: TipoEntidad[];
-  provincias: Provincia[];
-  contactos: Contacto[];
+  unidadesCentroForm: FormGroup;
+
+  ciclo : Ciclo[];
 
   ENTIDAD: String;
 
   constructor(
-    private datosUnidadCentro: DatosUnidadesCentroComponent,
-    public unidadesCentroService: UnidadesCentroService,
-  ) {
-    this.ciclos = this.datosUnidadCentro.datosEditarUnidadCentro.ciclos;
-  }
+    public dialogRef: MatDialogRef<DatosBasicosUnidadesCentroComponent>,
+    private snackBar: MatSnackBar,
+    private servicioUnidadesCentro: UnidadesCentroService,
+    @Inject(MAT_DIALOG_DATA) public unidadesCentro: UnidadesCentro,
+    private servicioCiclos: CiclosService
+  ) { }
 
   ngOnInit(): void {
-    this.ENTIDAD = ENTIDAD_ENTIDAD;
-    this.setForm();
-
-    this.datosBasicosForm.valueChanges.subscribe(form => {
-      this.unidadesCentroService.setDatosBasicosUnidadCentro(form);
+    this.ENTIDAD=ENTIDAD_UNIDADES_CENTRO;
+    this.unidadesCentroForm = new FormGroup({
+      id_unidad_centro: new FormControl(this.unidadesCentro.id_unidad_centro, Validators.required),
+      unidad_centro: new FormControl(this.unidadesCentro.unidad_centro, Validators.required),
+      id_ciclo: new FormControl(this.unidadesCentro.id_ciclo, Validators.required),
+      observaciones: new FormControl(this.unidadesCentro.obvervaciones)
     });
+    this.getCiclos();
   }
 
-  setForm(): void {
-    this.datosBasicosForm = new FormGroup({
-      id_unidad_centro: new FormControl(this.unidadesCentroService.unidadCentro.id_unidad_centro, Validators.required),
-      unidad_centro: new FormControl(this.unidadesCentroService.unidadCentro.unidad_centro, Validators.required),
-      id_ciclo: new FormControl(this.unidadesCentroService.unidadCentro.id_ciclo, Validators.required),
-      observaciones: new FormControl(this.unidadesCentroService.unidadCentro.obvervaciones),
-      // id_entidad: new FormControl(this.entidadService.entidad.id_entidad, Validators.required),
-      // entidad: new FormControl(this.entidadService.entidad.entidad, Validators.required),
-      // id_zona: new FormControl(this.entidadService.entidad.id_zona, Validators.required),
-      // id_contacto: new FormControl(this.entidadService.entidad.id_contacto, Validators.required),
-      // id_tipo_entidad: new FormControl(this.entidadService.entidad.id_tipo_entidad, Validators.required),
-      // direccion: new FormControl(this.entidadService.entidad.direccion),
-      // cp: new FormControl(this.entidadService.entidad.cp),
-      // localidad: new FormControl(this.entidadService.entidad.localidad),
-      // id_provincia: new FormControl(this.entidadService.entidad.id_provincia),
-      // telefono: new FormControl(this.entidadService.entidad.telefono),
-      // email: new FormControl(this.entidadService.entidad.email),
-      // web: new FormControl(this.entidadService.entidad.web),
-      // codigo: new FormControl(this.entidadService.entidad.codigo),
-      // observaciones: new FormControl(this.entidadService.entidad.observaciones)
+  async getCiclos(){
+    const RESPONSE = await this.servicioCiclos.getAllCiclos().toPromise();
+    if (RESPONSE.ok){
+      this.ciclo = RESPONSE.data as Ciclo[];
+    }
+  }
 
-    });
+  async confirmEdit(){
+    if (this.unidadesCentroForm.valid) {
+      const familiaForm = this.unidadesCentroForm.value;
+
+      const RESPONSE = await this.servicioUnidadesCentro.editUnidadesCentro(familiaForm).toPromise();
+      if (RESPONSE.ok) {
+        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
+      } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
+    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
+  }
+
+  onNoClick() {
+    this.dialogRef.close({ ok: false });
   }
 }

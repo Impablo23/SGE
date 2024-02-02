@@ -1,67 +1,72 @@
-<div class="container ">
-    <h3 mat-dialog-title>Contactos de {{entidad.entidad}}</h3>
-    <div class="example-container mat-elevation-z8">
-        <div class="example-table-container">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+<div class="example-container mat-elevation-z8">
+  <div class="example-table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
-                <ng-container matColumnDef="id_contacto">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <input matInput [formControl]="idContactoFilter" placeholder="Id">
-                        <span mat-sort-header></span>
-                    </th>
-                    <td mat-cell *matCellDef="let contactos"> {{contactos.id_contacto}} </td>
-                </ng-container>
+      <ng-container matColumnDef="id_alumno">
+        <th mat-header-cell *matHeaderCellDef>
+          <input matInput [formControl]="idAlumnoFilter" placeholder="Id Alumno" required>
+          <span mat-sort-header></span>
+        </th>
+        <td mat-cell *matCellDef="let alumno"> {{alumno.id_alumno}} </td>
+      </ng-container>
 
-                <ng-container matColumnDef="nombre_completo">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <input matInput [formControl]="nombreCompletoFilter" placeholder="Nombre">
-                        <span mat-sort-header></span>
-                    </th>
-                    <td mat-cell *matCellDef="let contactos"> {{contactos.nombre_completo}}</td>
-                </ng-container>
+      <ng-container matColumnDef="id_unidad_centro">
+        <th mat-header-cell *matHeaderCellDef>
+          <input matInput [formControl]="idAlumnoFilter" placeholder="Id Unidad Centro" required>
+          <span mat-sort-header></span>
+        </th>
+        <td mat-cell *matCellDef="let alumno"> {{alumno.id_unidad_centro}} </td>
+      </ng-container>
 
-                <ng-container matColumnDef="cargo">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <input matInput [formControl]="cargoFilter" placeholder="Cargo">
-                        <span mat-sort-header></span>
-                    </th>
-                    <td mat-cell *matCellDef="let contactos"> {{contactos.cargo}}</td>
-                </ng-container>
+      <ng-container matColumnDef="nombre_completo_alumno">
+        <th mat-header-cell *matHeaderCellDef>
+          <input matInput [formControl]="nombreCompletoFilter" placeholder="Nombre Completo" required>
+          <span mat-sort-header></span>
+        </th>
+        <td mat-cell *matCellDef="let alumno"> {{alumno.nombre_completo_alumno}} </td>
+      </ng-container>
 
-                <ng-container matColumnDef="familia">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <input matInput [formControl]="familiaFilter" placeholder="FP">
-                        <span mat-sort-header></span>
-                    </th>
-                    <td mat-cell *matCellDef="let contactos"> {{contactos.familia}}</td>
-                </ng-container>
+      <ng-container matColumnDef="fecha_nacimiento_alumno">
+        <th mat-header-cell *matHeaderCellDef>
+          <input matInput [formControl]="edadFilter" placeholder="Edad" required>
+          <span mat-sort-header></span>
+        </th>
+        <td mat-cell *matCellDef="let alumno"> {{ alumno.fecha_nacimiento }} años </td>
+      </ng-container>
 
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <button mat-icon-button (click)="addContacto(entidad.id_entidad)">
-                            <mat-icon>
-                                add_circle
-                            </mat-icon>
-                        </button>
-                    </th>
-                    <td mat-cell *matCellDef="let contactos">
-                        <button mat-icon-button (click)="editContacto(contactos)">
-                            <mat-icon>
-                                mode_edit
-                            </mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="deleteContacto(contactos)">
-                            <mat-icon>
-                                delete
-                            </mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+      <ng-container matColumnDef="linkedin_alumno">
+        <th mat-header-cell *matHeaderCellDef>
+          <input matInput [formControl]="linkedinFilter" placeholder="Linkedin Alumno" required>
+          <span mat-sort-header></span>
+        </th>
+        <td mat-cell *matCellDef="let alumno"> {{ alumno.linkedin_alumno }} </td>
+      </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
-    </div>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          <button mat-icon-button (click)="addAlumno()">
+            <mat-icon>
+              add_circle
+            </mat-icon>
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let alumno">
+          <button mat-icon-button (click)="editAlumno(alumno)">
+            <mat-icon>
+              mode_edit
+            </mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteAlumno(alumno)">
+            <mat-icon>
+              delete
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </div>

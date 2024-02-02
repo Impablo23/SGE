@@ -4,12 +4,11 @@
             <mat-list-item mat-list-item (click)="navega('datos-unidades-centro')"> Unidad Centro </mat-list-item>
             <mat-list-item mat-list-item (click)="navega('alumnos-unidades-centro')"> Alumnos </mat-list-item>
         </mat-nav-list>
-        <button mat-button class="save" (click)="save()">Guardar</button>
-        <button mat-button class="onNoClick" (click)="onNoClick()">Cancelar</button>
+        <button mat-button class="onNoClick" (click)="onNoClick()">Cerrar</button>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content >
 
-        <router-outlet name="sidebar"></router-outlet>
+        <router-outlet name="sidebar" ></router-outlet>
 
     </mat-sidenav-content>
 

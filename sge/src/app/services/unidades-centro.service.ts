@@ -6,7 +6,7 @@ import { URL_API } from 'src/environments/environment';
 import { UnidadesCentro } from '../shared/interfaces/unidades-centro';
 
 const ENDPOINT = 'unidades_centro';
-const ENDPOINT_EDIT = 'datos_unidades_centro'
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class UnidadesCentroService {
 
   addUnidadesCentro(unidadesCentro: UnidadesCentro) {
     const body = JSON.stringify(unidadesCentro);
-    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT_EDIT}.php`, body, { headers: this.commonService.headers });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
   }
 
   editUnidadesCentro(unidadesCentro: UnidadesCentro) {
