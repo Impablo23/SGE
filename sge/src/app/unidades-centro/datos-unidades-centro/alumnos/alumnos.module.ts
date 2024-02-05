@@ -5,10 +5,14 @@ import { AlumnosRoutingModule } from './alumnos-routing.module';
 import { AlumnosComponent} from './alumnos.component';
 import { CrudMaterialModule } from '../../../modules/crud-material/crud-material.module';
 import { DatosBasicosEntidadModule } from 'src/app/entidades/datos-entidad/datos-basicos-entidad/datos-basicos-entidad.module';
+import { AddAlumnoComponent } from './add-alumno/add-alumno.component';
+import { DeleteAlumnoComponent } from './delete-alumno/delete-alumno.component';
+import { EditAlumnoComponent } from './edit-alumno/edit-alumno.component';
+import { LinkedinUrlPipe } from 'src/app/shared/pipes/linkedinURL.pipe';
 
 
 @NgModule({
-  declarations: [AlumnosComponent],
+  declarations: [AlumnosComponent, AddAlumnoComponent, DeleteAlumnoComponent, EditAlumnoComponent, LinkedinUrlPipe],
   imports: [
     CommonModule,
     AlumnosRoutingModule,

@@ -2,21 +2,7 @@
   <div class="example-table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
-      <ng-container matColumnDef="id_alumno">
-        <th mat-header-cell *matHeaderCellDef>
-          <input matInput [formControl]="idAlumnoFilter" placeholder="Id Alumno" required>
-          <span mat-sort-header></span>
-        </th>
-        <td mat-cell *matCellDef="let alumno"> {{alumno.id_alumno}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="id_unidad_centro">
-        <th mat-header-cell *matHeaderCellDef>
-          <input matInput [formControl]="idAlumnoFilter" placeholder="Id Unidad Centro" required>
-          <span mat-sort-header></span>
-        </th>
-        <td mat-cell *matCellDef="let alumno"> {{alumno.id_unidad_centro}} </td>
-      </ng-container>
 
       <ng-container matColumnDef="nombre_completo_alumno">
         <th mat-header-cell *matHeaderCellDef>
@@ -36,7 +22,7 @@
 
       <ng-container matColumnDef="linkedin_alumno">
         <th mat-header-cell *matHeaderCellDef>
-          <input matInput [formControl]="linkedinFilter" placeholder="Linkedin Alumno" required>
+          <input placeholder="Linkedin Alumno">
           <span mat-sort-header></span>
         </th>
         <td mat-cell *matCellDef="let alumno"> {{ alumno.linkedin_alumno }} </td>

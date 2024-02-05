@@ -4,38 +4,36 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contacto } from 'src/app/shared/interfaces/contacto';
 import { ContactosService } from 'src/app/services/contactos.service';
 import { CLOSE, ENTIDAD_CONTACTO } from 'src/app/shared/messages';
+import { AlumnosService } from 'src/app/services/alumnos.service';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
 
 @Component({
-  selector: 'app-delete-contacto',
+  selector: 'app-delete-alumno',
   templateUrl: './delete-alumno.component.html',
   styleUrls: ['./delete-alumno.component.scss']
 })
 export class DeleteAlumnoComponent implements OnInit {
-
-  ENTIDAD: String;
-
   constructor(
     public dialogRef: MatDialogRef<DeleteAlumnoComponent>,
-    @Inject(MAT_DIALOG_DATA) public contacto: Contacto,
-    public servicioContacto: ContactosService,
-    public snackBar: MatSnackBar,
-  )
-  {   }
+    @Inject(MAT_DIALOG_DATA) public alumno: Alumno,
+    public alumnoService: AlumnosService,
+    private snackBar: MatSnackBar
+  ) {}
 
-  ngOnInit(): void {
-    this.ENTIDAD = ENTIDAD_CONTACTO;
-  }
+  ngOnInit(): void {}
 
   onNoClick(): void {
     this.dialogRef.close({ ok: false });
   }
 
   async confirmDelete() {
-    const RESPONSE = await this.servicioContacto.deleteContacto(this.contacto.id_contacto).toPromise();
+    const RESPONSE = await this.alumnoService.deleteAlumno(this.alumno.id_alumno).toPromise();
+
     if (RESPONSE.ok) {
       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
       this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-    } else { this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 }); }
+    } else {
+      this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+    }
   }
-
 }

@@ -17,7 +17,7 @@ import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-contactos-entidad',
+  selector: 'app-alumnos-unidades-centro',
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.scss']
 })
@@ -28,11 +28,8 @@ export class AlumnosComponent implements OnInit {
 
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
-  idAlumnoFilter = new FormControl();
-  idUnidadCentroFilter = new FormControl();
   nombreCompletoFilter = new FormControl();
   edadFilter = new FormControl();
-  linkedinFilter = new FormControl();
 
 
   alumno: Alumno;
@@ -42,7 +39,7 @@ export class AlumnosComponent implements OnInit {
   selection: SelectionModel<Alumno>;
 
   displayedColumns: string[];
-  private filterValues = { id_alumno: '', id_unidad_centro: '', nombre_completo_alumno: '', fecha_nacimiento_alumno: '', linkedin_alumno: '' };
+  private filterValues = {nombre_completo_alumno: '', fecha_nacimiento_alumno: ''};
 
   constructor(
     public dialog: MatDialog,
@@ -64,7 +61,7 @@ export class AlumnosComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['id_alumno','id_unidad_centro','nombre_completo_alumno','fecha_nacimiento_alumno','linkedin_alumno'];
+      this.displayedColumns = ['nombre_completo_alumno','fecha_nacimiento_alumno','linkedin_alumno','actions'];
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -74,10 +71,13 @@ export class AlumnosComponent implements OnInit {
   }
 
   async addAlumno() {
-    const dialogRef = this.dialog.open(AddAlumnoComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const dialogRef = this.dialog.open(AddAlumnoComponent, { data: this.unidadCentro.id_unidad_centro, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
+        this.alumnosService.alumnos.push(RESULT.data);
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
         //this.unidadesDualService.unidadDual.push(RESULT.data);
         //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
@@ -90,6 +90,8 @@ export class AlumnosComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
         //this.unidadesDualService.editUnidadDual(RESULT.data);
         //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
@@ -102,6 +104,8 @@ export class AlumnosComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
         //this.unidadesDualService.deleteUnidadDual(RESULT.data);
         //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
@@ -112,14 +116,9 @@ export class AlumnosComponent implements OnInit {
   createFilter(): (alumno: Alumno, filter: string) => boolean {
     const filterFunction = (alumno: Alumno, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
-      if(alumno.otra_formacion==null){
-        alumno.otra_formacion="";
-      }
-      return alumno.id_alumno.toString().indexOf(searchTerms.id_alumno) !== -1
-        && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
-        && alumno.nombre_completo_alumno.toString().indexOf(searchTerms.nombre_completo_alumno) !== -1
+
+      return alumno.nombre_completo_alumno.toString().indexOf(searchTerms.nombre_completo_alumno) !== -1
         && alumno.fecha_nacimiento_alumno.toString().indexOf(searchTerms.fecha_nacimiento_alumno) !== -1
-        && alumno.linkedin_alumno.toString().indexOf(searchTerms.linkedin_alumno) !== -1
 
     };
 
@@ -127,17 +126,6 @@ export class AlumnosComponent implements OnInit {
   }
 
   onChanges() {
-    this.idAlumnoFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.id_alumno = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.idUnidadCentroFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.id_alumno = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
 
     this.nombreCompletoFilter.valueChanges
     .subscribe(value => {
@@ -151,11 +139,7 @@ export class AlumnosComponent implements OnInit {
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.linkedinFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.linkedin_alumno = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+
   }
 
 

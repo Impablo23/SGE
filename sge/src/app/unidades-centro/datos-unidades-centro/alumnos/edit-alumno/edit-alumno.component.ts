@@ -2,25 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContactosService } from 'src/app/services/contactos.service';
-import { Contacto } from 'src/app/shared/interfaces/contacto';
+
 import { CLOSE, ENTIDAD_CONTACTO, ERROR, INVALID_FORM } from 'src/app/shared/messages';
-import { ProvinciasService } from 'src/app/services/provincias.service';
-import { Provincia } from 'src/app/shared/interfaces/provincia';
-import { ZonasService } from 'src/app/services/zonas.service';
-import { Zona } from 'src/app/shared/interfaces/zona';
-import { EntidadesService } from 'src/app/services/entidades.service';
-import { Entidad } from 'src/app/shared/interfaces/entidad';
-import { FamiliasService } from 'src/app/services/familias.service';
-import { Familia } from 'src/app/shared/interfaces/familia';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { LinkedinUrlValidator } from 'src/app/shared/validators/linkedinURLValidator';
 
 @Component({
-  selector: 'app-edit-contacto',
+  selector: 'app-edit-alumno',
   templateUrl: './edit-alumno.component.html',
   styleUrls: ['./edit-alumno.component.scss']
 })
@@ -40,12 +30,12 @@ export class EditAlumnoComponent implements OnInit {
 
   ngOnInit() {
     this.alumnoForm = new FormGroup({
-      id: new FormControl(this.alumno.id_alumno),
+      id_alumno: new FormControl(this.alumno.id_alumno),
       id_centro: new FormControl(this.alumno.id_unidad_centro, Validators.required),
-      nombre: new FormControl(this.alumno.nombre_completo_alumno, Validators.required),
-      fecha_nacimiento: new FormControl(this.alumno.fecha_nacimiento_alumno, Validators.required),
-      linkedin: new FormControl(this.alumno.linkedin_alumno, [Validators.required, LinkedinUrlValidator()]),
-      nivel_ingles: new FormControl(this.alumno.nivel_ingles_alumno, Validators.required),
+      nombre_completo_alumno: new FormControl(this.alumno.nombre_completo_alumno, Validators.required),
+      fecha_nacimiento_alumno: new FormControl(this.alumno.fecha_nacimiento_alumno, Validators.required),
+      linkedin_alumno: new FormControl(this.alumno.linkedin_alumno, [Validators.required, LinkedinUrlValidator()]),
+      nivel_ingles_alumno: new FormControl(this.alumno.nivel_ingles_alumno, Validators.required),
       minusvalia: new FormControl(this.alumno.minusvalia, Validators.required),
       otra_formacion: new FormControl(this.alumno.otra_formacion),
 

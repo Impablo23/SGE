@@ -13,69 +13,47 @@ import { EntidadesService } from 'src/app/services/entidades.service';
 import { Entidad } from 'src/app/shared/interfaces/entidad';
 import { FamiliasService } from 'src/app/services/familias.service';
 import { Familia } from 'src/app/shared/interfaces/familia';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
+import { LinkedinUrlValidator } from 'src/app/shared/validators/linkedinURLValidator';
+import { AlumnosService } from 'src/app/services/alumnos.service';
 
 @Component({
-  selector: 'app-add-contacto',
+  selector: 'app-add-alumno',
   templateUrl: './add-alumno.component.html',
   styleUrls: ['./add-alumno.component.scss']
 })
 export class AddAlumnoComponent implements OnInit {
-  contactoForm: FormGroup;
-  provincias: Provincia[];
-  zonas: Zona[];
-  entidades: Entidad[];
-  familias: Familia[];
+  alumnoForm: FormGroup;
 
-  ENTIDAD: String;
-
-  constructor(public dialogRef: MatDialogRef<AddAlumnoComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<AddAlumnoComponent>,
     private snackBar: MatSnackBar,
-    private servicioContactos: ContactosService,
-    private servicioProvincia: ProvinciasService,
-    private servicioZona: ZonasService,
-    private servicioEntidad: EntidadesService,
-    private servicioFamilia: FamiliasService,
-    @Inject(MAT_DIALOG_DATA) public idEntidad: number,
+    private alumnoService: AlumnosService,
+    @Inject(MAT_DIALOG_DATA) public centro_actual: number
+  ) {}
 
-
-  ){ }
-
-  ngOnInit(): void {
-    this.contactoForm = new FormGroup({
-      //id_contacto: new FormControl(this.contacto.id_contacto, Validators.required),
-      nombre: new FormControl(null),
-      apellidos: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      corporativo_largo: new FormControl(null),
-      corporativo_corto: new FormControl(null),
-      telefono_personal: new FormControl(null),
-      id_zona: new FormControl(null),
-      id_entidad: new FormControl(this.idEntidad, Validators.required),
-      cargo: new FormControl(null),
-      id_familia: new FormControl(null),
-      direccion: new FormControl(null),
-      cp: new FormControl(null),
-      localidad: new FormControl(null),
-      id_provincia: new FormControl(null),
-      observaciones: new FormControl(null)
+  ngOnInit() {
+    this.alumnoForm = new FormGroup({
+      id_alumno: new FormControl(null, Validators.required),
+      id_unidad_centro: new FormControl(null, Validators.required),
+      nombre_completo_alumno: new FormControl(null, Validators.required),
+      fecha_nacimiento_alumno: new FormControl(null, Validators.required),
+      linkedin_alumno: new FormControl(null, [Validators.required, LinkedinUrlValidator()]),
+      nivel_ingles_alumno: new FormControl(null, Validators.required),
+      minusvalia: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
+      otra_formacion: new FormControl(null),
     });
-    this.ENTIDAD = ENTIDAD_CONTACTO;
-
-    this.getProvincias();
-    this.getZonas();
-    this.getEntidades();
-    this.getFamilias();
-
   }
 
   async confirmAdd() {
-    if (this.contactoForm.valid) {
-      const contacto = this.contactoForm.value as Contacto;
+    if (this.alumnoForm.valid) {
+      //agregar centro al formulario
+      const alumno = this.alumnoForm.value as Alumno;
+      const RESPONSE = await this.alumnoService.addAlumno(alumno).toPromise();
 
-      const RESPONSE = await this.servicioContactos.addContacto(contacto).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
+        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
       } else {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
       }
@@ -84,39 +62,7 @@ export class AddAlumnoComponent implements OnInit {
     }
   }
 
-  async getProvincias(){
-    const RESPONSE = await this.servicioProvincia.getAllProvincias().toPromise();
-    if (RESPONSE.ok){
-      this.provincias = RESPONSE.data as Provincia[];
-    }
-  }
-
-  async getZonas(){
-    const RESPONSE = await this.servicioZona.getAllZonas().toPromise();
-    if (RESPONSE.ok){
-      this.zonas = RESPONSE.data as Zona[];
-    }
-  }
-
-  async getEntidades(){
-    const RESPONSE = await this.servicioEntidad.getAllEntidades().toPromise();
-    if (RESPONSE.ok){
-      this.entidades = RESPONSE.data as Entidad[];
-    }
-  }
-
-  async getFamilias(){
-    const RESPONSE = await this.servicioFamilia.getAllFamilias().toPromise();
-    if (RESPONSE.ok){
-      this.familias = RESPONSE.data as Familia[];
-    }
-  }
-
   onNoClick() {
-    this.dialogRef.close({ok: false});
-  }
-
-  get email() {
-    return this.contactoForm.get('email');
+    this.dialogRef.close({ ok: false });
   }
 }

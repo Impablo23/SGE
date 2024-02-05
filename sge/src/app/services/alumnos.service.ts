@@ -40,6 +40,11 @@ export class AlumnosService {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${idCentro}`, { headers: this.commonService.headers });
   }
 
+  // Obtener todos los alumnos
+  getAllAlumnos() {
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
+  }
+
 
   addAlumno(alumno: Alumno) {
     const body = JSON.stringify(alumno);

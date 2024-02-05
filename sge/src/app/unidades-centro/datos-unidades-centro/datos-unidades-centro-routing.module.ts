@@ -10,7 +10,7 @@ const routes: Routes = [
     redirectTo: 'datos-entidad-reunion'
   },
   {
-    path: 'datos-unidades-centro',
+    path: 'datos-basicos-unidades-centro',
     loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosEntidadModule),
     outlet: 'sidebar'
   },

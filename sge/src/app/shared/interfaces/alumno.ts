@@ -12,7 +12,7 @@ export interface Alumno {
   id_alumno: number;
   id_unidad_centro: number;
   nombre_completo_alumno: string;
-  fecha_nacimiento_alumno: Date;
+  fecha_nacimiento_alumno: string;
   documentacion_alumno: string;
   linkedin_alumno: string;
   nivel_ingles_alumno: NivelIngles;

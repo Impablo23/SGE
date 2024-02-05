@@ -5,14 +5,7 @@
 
     <div class="form">
       <mat-form-field>
-        <input matInput placeholder="Nombre" formControlName="nombre"
-          maxlength="100" required>
-      </mat-form-field>
-    </div>
-
-    <div class="form">
-      <mat-form-field>
-        <input matInput placeholder="Apellidos" formControlName="apellidos"
+        <input matInput placeholder="Nombre" formControlName="nombre_completo_alumno"
           maxlength="100" required>
       </mat-form-field>
     </div>
@@ -20,14 +13,14 @@
     <div class="form">
       <mat-form-field>
         <input matInput placeholder="Fecha de Nacimiento"
-          formControlName="fecha_nacimiento" type="date" required>
+          formControlName="fecha_nacimiento_alumno" required>
       </mat-form-field>
     </div>
 
     <div class="form">
       <mat-form-field color="accent">
           <input matInput placeholder="LinkedIn"
-              formControlName="linkedin" name="linkedin" maxlength="255"
+              formControlName="linkedin_alumno" name="linkedin" maxlength="255"
               required>
           <mat-error
               *ngIf="alumnoForm.get('linkedin').hasError('required')">El
@@ -41,7 +34,7 @@
     <div class="form">
       <mat-form-field>
         <input matInput placeholder="Nivel de Inglés"
-          formControlName="nivel_ingles" maxlength="100" required>
+          formControlName="nivel_ingles_alumno" maxlength="100" required>
       </mat-form-field>
     </div>
 

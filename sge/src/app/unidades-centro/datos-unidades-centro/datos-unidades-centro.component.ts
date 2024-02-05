@@ -31,7 +31,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
   ngOnInit(): void {
     this.rutaSeleccionada = this.router.url.substring(1);
     this.rutaSeleccionada = this.rutaSeleccionada.split('/')[0];
-    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: 'datos-unidades-centro' } }]);
+    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: 'datos-basicos-unidades-centro' } }]);
 
     this.router.events.subscribe(e => {
       if (e instanceof ActivationStart && e.snapshot.outlet !== this.lastRoute) {
