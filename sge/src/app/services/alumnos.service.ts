@@ -8,7 +8,7 @@ import { Reunion } from '../shared/interfaces/reunion';
 import { Entidad } from '../shared/interfaces/entidad';
 import { Alumno } from '../shared/interfaces/alumno';
 
-const ENDPOINT = 'alumnos_unidades_centro';
+const ENDPOINT = 'alumno';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +41,8 @@ export class AlumnosService {
   }
 
   // Obtener todos los alumnos
-  getAllAlumnos() {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
+  getAllAlumnos(id_unidad_centro: number) {
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${id_unidad_centro}`, { headers: this.commonService.headers });
   }
 
 
@@ -56,7 +56,7 @@ export class AlumnosService {
     return this.http.put<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
   }
 
-  deleteAlumno(id: number|string) {
-    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id}`, {headers: this.commonService.headers });
+  deleteAlumno(id_alumno: number|string) {
+    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_alumno=${id_alumno}`, {headers: this.commonService.headers });
   }
 }

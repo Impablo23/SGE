@@ -17,7 +17,7 @@ import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-alumnos-unidades-centro',
+  selector: 'app-alumnos',
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.scss']
 })
@@ -55,19 +55,21 @@ export class AlumnosComponent implements OnInit {
     //this.onChanges();
   }
 
-  async getAlumnos(id: number) {
-    const RESPONSE = await this.alumnosService.get(id).toPromise();
-    this.permises = RESPONSE.permises;
-
+  async getAlumnos(id_unidad_centro: number) {
+    const RESPONSE = await this.alumnosService.get(id_unidad_centro).toPromise();
+    //this.permises = RESPONSE.permises;
+    console.log(RESPONSE)
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['nombre_completo_alumno','fecha_nacimiento_alumno','linkedin_alumno','actions'];
+      this.displayedColumns = ['nombre_completo_alumno','fecha_nacimiento_alumno','actions'];
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
+      this.selection = new SelectionModel<Alumno>(false, [this.alumno]);
       this.onChanges();
     }
+
   }
 
   async addAlumno() {
@@ -148,21 +150,7 @@ export class AlumnosComponent implements OnInit {
   }
 
 
-  public calcularEdad(fechaNacimiento: Date): number {
-    const fechaActual = new Date();
-    let edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
 
-    // Ajustar la edad si aún no ha sido el cumpleaños en el año actual
-    if (
-        fechaNacimiento.getMonth() > fechaActual.getMonth() ||
-        (fechaNacimiento.getMonth() === fechaActual.getMonth() &&
-            fechaNacimiento.getDate() > fechaActual.getDate())
-    ) {
-        edad--;
-    }
-
-    return edad;
-}
 
 
 

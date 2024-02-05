@@ -10,7 +10,7 @@ import { CiclosService } from 'src/app/services/ciclos.service';
 import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
 
 @Component({
-  selector: 'app-datos-basicos-entidad',
+  selector: 'app-datos-basicos-unidades-centro',
   templateUrl: './datos-basicos-unidades-centro.html',
   styleUrls: ['./datos-basicos-unidades-centro.component.scss']
 })
@@ -18,7 +18,7 @@ export class DatosBasicosUnidadesCentroComponent implements OnInit {
 
   unidadesCentroForm: FormGroup;
 
-  ciclo : Ciclo[];
+ ciclo : Ciclo[];
 
   ENTIDAD: String;
 

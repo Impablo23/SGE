@@ -7,15 +7,20 @@ const routes: Routes = [
   {
     path: '',
     component: DatosUnidadesCentroComponent,
-    redirectTo: 'datos-entidad-reunion'
+    redirectTo: 'datos-unidades-centro',
+    pathMatch: 'full'
+  },
+  {
+    path: 'datos-unidades-centro',
+    component: DatosUnidadesCentroComponent
   },
   {
     path: 'datos-basicos-unidades-centro',
-    loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosEntidadModule),
+    loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosUnidadesCentroModule),
     outlet: 'sidebar'
   },
   {
-    path: 'alumnos-unidades-centro',
+    path: 'alumnos',
     loadChildren: () => import('./alumnos/alumnos.module').then(m => m.AlumnosModule),
     outlet: 'sidebar'
   }];

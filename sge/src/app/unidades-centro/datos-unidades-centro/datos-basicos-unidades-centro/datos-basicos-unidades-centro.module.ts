@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { DatosBasicosUnidadesCentroComponent } from './datos-basicos-unidades-centro.component';
 import { CrudMaterialModule } from '../../../modules/crud-material/crud-material.module';
 import { DatosBasicosUnidadesCentroRoutingModule } from './datos-basicos-unidades-centro-routing.module';
-import { UnidadesCentroModule } from '../../unidades-centro.module';
-import { AlumnosModule } from '../alumnos/alumnos.module';
+// import { UnidadesCentroModule } from '../../unidades-centro.module';
+// import { AlumnosModule } from '../alumnos/alumnos.module';
 
 
 @NgModule({
@@ -14,9 +14,7 @@ import { AlumnosModule } from '../alumnos/alumnos.module';
   imports: [
     CommonModule,
     DatosBasicosUnidadesCentroRoutingModule,
-    CrudMaterialModule,
-    AlumnosModule,
-
+    CrudMaterialModule
   ]
 })
-export class DatosBasicosEntidadModule { }
+export class DatosBasicosUnidadesCentroModule { }

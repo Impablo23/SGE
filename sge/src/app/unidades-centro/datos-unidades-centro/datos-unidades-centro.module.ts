@@ -5,8 +5,8 @@ import {DatosUnidadesCentroRoutingModule } from './datos-unidades-centro-routing
 import { DatosUnidadesCentroComponent } from './datos-unidades-centro.component';
 //import { CrudMaterialModule } from '../../modules/crud-material/crud-material.module';
 import { CrudMaterialModule } from '../../modules/crud-material/crud-material.module'
-import { UnidadesCentroModule } from '../unidades-centro.module';
-import { AlumnosModule } from './alumnos/alumnos.module';
+// import { UnidadesCentroModule } from '../unidades-centro.module';
+// import { AlumnosModule } from './alumnos/alumnos.module';
 
 
 @NgModule({
@@ -14,8 +14,7 @@ import { AlumnosModule } from './alumnos/alumnos.module';
   imports: [
     CommonModule,
     DatosUnidadesCentroRoutingModule,
-    CrudMaterialModule,
-    AlumnosModule
+    CrudMaterialModule
   ]
 })
 export class DatosUnidadCentroModule { }

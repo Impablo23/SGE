@@ -6,10 +6,11 @@ import { ActivationStart, Router, RouterOutlet } from '@angular/router';
 import { CLOSE } from '../../shared/messages';
 import { DatosEditarUnidadCentro } from 'src/app/shared/interfaces/datos-editar-unidad-centro';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
+import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
 
 
 @Component({
-  selector: 'app-datos-entidad',
+  selector: 'app-datos-unidades-centro',
   templateUrl: './datos-unidades-centro.component.html',
   styleUrls: ['./datos-unidades-centro.component.scss']
 })
@@ -22,7 +23,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
 
   constructor(
             private router: Router,
-            @Inject(MAT_DIALOG_DATA) public datosEditarUnidadCentro: DatosEditarUnidadCentro,
+            @Inject(MAT_DIALOG_DATA) public datosEditarUnidadCentro: UnidadesCentro,
             private unidadCentroService: UnidadesCentroService,
             private snackBar: MatSnackBar,
             public dialogRef: MatDialogRef<DatosUnidadesCentroComponent>,
@@ -39,18 +40,18 @@ export class DatosUnidadesCentroComponent implements OnInit {
         this.outlet.deactivate();
       }
     });
-    this.unidadCentroService.setUnidadCentro(this.datosEditarUnidadCentro.unidadesCentro);
+    this.unidadCentroService.setUnidadCentro(this.datosEditarUnidadCentro);
   }
 
   navega(ruta: string) {
-    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: ruta } }]);
+    this.router.navigate([`${ this.rutaSeleccionada }`, { outlets: { sidebar: ruta } }]);
   }
 
   async save() {
       const RESPONSE = await this.unidadCentroService.editUnidadesCentro(this.unidadCentroService.unidadCentro).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarUnidadCentro.unidadesCentro});
+        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarUnidadCentro});
         //this.entidadService.entidades = (await this.entidadService.getAllEntidades().toPromise()).data;
       } else {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
@@ -58,6 +59,6 @@ export class DatosUnidadesCentroComponent implements OnInit {
     }
 
   onNoClick() {
-    this.dialogRef.close({entidad: this.datosEditarUnidadCentro.unidadesCentro});
+    this.dialogRef.close({entidad: this.datosEditarUnidadCentro});
   }
 }
