@@ -31,10 +31,11 @@ export class EditAlumnoComponent implements OnInit {
   ngOnInit() {
     this.alumnoForm = new FormGroup({
       id_alumno: new FormControl(this.alumno.id_alumno),
-      id_centro: new FormControl(this.alumno.id_unidad_centro, Validators.required),
+      id_unidad_centro: new FormControl(this.alumno.id_unidad_centro, Validators.required),
       nombre_completo_alumno: new FormControl(this.alumno.nombre_completo_alumno, Validators.required),
       fecha_nacimiento_alumno: new FormControl(this.alumno.fecha_nacimiento_alumno, Validators.required),
-      linkedin_alumno: new FormControl(this.alumno.linkedin_alumno, [Validators.required, LinkedinUrlValidator()]),
+      documentacion_alumno: new FormControl(this.alumno.documentacion_alumno, Validators.required),
+      linkedin_alumno: new FormControl(this.alumno.linkedin_alumno, Validators.required),
       nivel_ingles_alumno: new FormControl(this.alumno.nivel_ingles_alumno, Validators.required),
       minusvalia: new FormControl(this.alumno.minusvalia, Validators.required),
       otra_formacion: new FormControl(this.alumno.otra_formacion),

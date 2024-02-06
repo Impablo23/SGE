@@ -5,13 +5,6 @@
 
       <div class="form">
           <mat-form-field color="accent">
-              <input matInput placeholder="Id Centro" formControlName="id_unidad_centro" name="id_unidad_centro"
-                  maxlength="20" required>
-          </mat-form-field>
-      </div>
-
-      <div class="form">
-          <mat-form-field color="accent">
               <input matInput placeholder="Nombre" formControlName="nombre_completo_alumno"
                   name="nombre_completo_alumno" maxlength="255" required>
           </mat-form-field>
@@ -26,16 +19,18 @@
       </div>
 
       <div class="form">
+        <mat-form-field>
+            <input  matInput placeholder="Documentacion"
+                formControlName="documentacion_alumno" name="documentacion_alumno"
+                maxlength="255" required>
+        </mat-form-field>
+    </div>
+
+      <div class="form">
           <mat-form-field color="accent">
               <input matInput placeholder="LinkedIn"
                   formControlName="linkedin_alumno" name="linkedin_alumno" maxlength="255"
                   required>
-              <mat-error
-                  *ngIf="alumnoForm.get('linkedin_alumno').hasError('required')">El
-                  campo LinkedIn es obligatorio</mat-error>
-              <mat-error
-                  *ngIf="alumnoForm.get('linkedin_alumno').hasError('linkedinUrl')">Ingrese
-                  una URL de LinkedIn válida</mat-error>
           </mat-form-field>
       </div>
 

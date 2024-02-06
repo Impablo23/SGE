@@ -28,8 +28,10 @@ export class AlumnosComponent implements OnInit {
 
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
+  idAlumnoFilter = new FormControl();
   nombreCompletoFilter = new FormControl();
-  edadFilter = new FormControl();
+  FechaFilter = new FormControl();
+  linkedinFilter = new FormControl();
 
 
   alumno: Alumno;
@@ -39,7 +41,7 @@ export class AlumnosComponent implements OnInit {
   selection: SelectionModel<Alumno>;
 
   displayedColumns: string[];
-  private filterValues = {nombre_completo_alumno: '', fecha_nacimiento_alumno: ''};
+  private filterValues = {id_alumno: '',nombre_completo_alumno: '', fecha_nacimiento_alumno: '', linkedin_alumno: ''};
 
   constructor(
     public dialog: MatDialog,
@@ -56,12 +58,12 @@ export class AlumnosComponent implements OnInit {
   }
 
   async getAlumnos(id_unidad_centro: number) {
-    const RESPONSE = await this.alumnosService.get(id_unidad_centro).toPromise();
+    const RESPONSE = await this.alumnosService.getAllAlumnos(id_unidad_centro).toPromise();
     //this.permises = RESPONSE.permises;
     console.log(RESPONSE)
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['nombre_completo_alumno','fecha_nacimiento_alumno','actions'];
+      this.displayedColumns = ['id_alumno','nombre_completo_alumno','fecha_nacimiento_alumno','linkedin_alumno','actions'];
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -82,7 +84,7 @@ export class AlumnosComponent implements OnInit {
         this.getAlumnos(this.unidadCentro.id_unidad_centro);
         //this.unidadesDualService.unidadDual.push(RESULT.data);
         //this.dataSource.data = this.unidadesDualService.unidadDual;
-        this.ngOnInit();
+
       }
     }
   }
@@ -120,7 +122,9 @@ export class AlumnosComponent implements OnInit {
       const searchTerms = JSON.parse(filter);
 
       return alumno.nombre_completo_alumno.toString().indexOf(searchTerms.nombre_completo_alumno) !== -1
-        && alumno.fecha_nacimiento_alumno.toString().indexOf(searchTerms.fecha_nacimiento_alumno) !== -1
+      && alumno.fecha_nacimiento_alumno.toString().indexOf(searchTerms.fecha_nacimiento_alumno) !== -1
+      && alumno.id_alumno.toString().indexOf(searchTerms.fecha_nacimiento_alumno) !== -1
+      && alumno.linkedin_alumno.toString().indexOf(searchTerms.fecha_nacimiento_alumno) !== -1
 
     };
 
@@ -135,9 +139,21 @@ export class AlumnosComponent implements OnInit {
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.edadFilter.valueChanges
+    this.FechaFilter.valueChanges
     .subscribe(value => {
         this.filterValues.fecha_nacimiento_alumno = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.linkedinFilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.linkedin_alumno = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.idAlumnoFilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.id_alumno = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 

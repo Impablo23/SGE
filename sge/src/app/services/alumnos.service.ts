@@ -8,7 +8,7 @@ import { Reunion } from '../shared/interfaces/reunion';
 import { Entidad } from '../shared/interfaces/entidad';
 import { Alumno } from '../shared/interfaces/alumno';
 
-const ENDPOINT = 'alumno';
+const ENDPOINT = 'alumnos';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +35,10 @@ export class AlumnosService {
     this.alumno.otra_formacion = formAlumno.otra_formacion;
   }
 
-  // Obtener todos los alumnos
-  get(idCentro: number) {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${idCentro}`, { headers: this.commonService.headers });
-  }
+  // // Obtener todos los alumnos
+  // get(idCentro: number) {
+  //   return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${idCentro}`, { headers: this.commonService.headers });
+  // }
 
   // Obtener todos los alumnos
   getAllAlumnos(id_unidad_centro: number) {
