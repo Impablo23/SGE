@@ -161,16 +161,4 @@ export class AlumnosComponent implements OnInit {
   }
 
 
-  public linkedin(url: string): void {
-    window.open(url)
-  }
-
-
-
-
-
-
-
-
-
 }
