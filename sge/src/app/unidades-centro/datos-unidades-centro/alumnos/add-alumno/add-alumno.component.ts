@@ -29,16 +29,17 @@ export class AddAlumnoComponent implements OnInit {
     public dialogRef: MatDialogRef<AddAlumnoComponent>,
     private snackBar: MatSnackBar,
     private alumnoService: AlumnosService,
-    @Inject(MAT_DIALOG_DATA) public centro_actual: number
+    @Inject(MAT_DIALOG_DATA) public id_unidad_centro: number
   ) {}
 
   ngOnInit() {
     this.alumnoForm = new FormGroup({
-      id_alumno: new FormControl(null, Validators.required),
-      id_unidad_centro: new FormControl(null, Validators.required),
+      id_alumno: new FormControl(0),
+      id_unidad_centro: new FormControl(this.id_unidad_centro),
       nombre_completo_alumno: new FormControl(null, Validators.required),
       fecha_nacimiento_alumno: new FormControl(null, Validators.required),
-      linkedin_alumno: new FormControl(null, [Validators.required, LinkedinUrlValidator()]),
+      documentacion_alumno: new FormControl(null, Validators.required),
+      linkedin_alumno: new FormControl(null,Validators.required),
       nivel_ingles_alumno: new FormControl(null, Validators.required),
       minusvalia: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
       otra_formacion: new FormControl(null),

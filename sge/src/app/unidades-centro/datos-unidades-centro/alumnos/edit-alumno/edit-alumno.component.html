@@ -4,52 +4,63 @@
   <form class="mat-dialog-content" [formGroup]="alumnoForm">
 
     <div class="form">
-      <mat-form-field>
-        <input matInput placeholder="Nombre" formControlName="nombre_completo_alumno"
-          maxlength="100" required>
-      </mat-form-field>
-    </div>
-
-    <div class="form">
-      <mat-form-field>
-        <input matInput placeholder="Fecha de Nacimiento"
-          formControlName="fecha_nacimiento_alumno" required>
-      </mat-form-field>
-    </div>
-
-    <div class="form">
       <mat-form-field color="accent">
-          <input matInput placeholder="LinkedIn"
-              formControlName="linkedin_alumno" name="linkedin" maxlength="255"
-              required>
-          <mat-error
-              *ngIf="alumnoForm.get('linkedin').hasError('required')">El
-              campo LinkedIn es obligatorio</mat-error>
-          <mat-error
-              *ngIf="alumnoForm.get('linkedin').hasError('linkedinUrl')">Ingrese
-              una URL de LinkedIn válida</mat-error>
+          <input matInput placeholder="Nombre" formControlName="nombre_completo_alumno"
+              name="nombre_completo_alumno" maxlength="255" required>
       </mat-form-field>
-  </div>
+      </div>
+
+    <div class="form">
+        <mat-form-field>
+            <input type="date" matInput placeholder="Fecha"
+                formControlName="fecha_nacimiento_alumno" name="fecha_nacimiento_alumno"
+                maxlength="100" required>
+        </mat-form-field>
+    </div>
 
     <div class="form">
       <mat-form-field>
-        <input matInput placeholder="Nivel de Inglés"
-          formControlName="nivel_ingles_alumno" maxlength="100" required>
+          <input  matInput placeholder="Documentacion"
+              formControlName="documentacion_alumno" name="documentacion_alumno"
+              maxlength="255" required>
       </mat-form-field>
+    </div>
+
+    <div class="form">
+        <mat-form-field color="accent">
+            <input matInput placeholder="LinkedIn"
+                formControlName="linkedin_alumno" name="linkedin_alumno" maxlength="255"
+                required>
+        </mat-form-field>
+    </div>
+
+    <div class="form">
+        <mat-form-field>
+            <mat-select formControlName="nivel_ingles_alumno"
+                placeholder="Nivel de Inglés">
+                <mat-option value="A1">A1</mat-option>
+                <mat-option value="A2">A2</mat-option>
+                <mat-option value="B1">B1</mat-option>
+                <mat-option value="B2">B2</mat-option>
+                <mat-option value="C1">C1</mat-option>
+                <mat-option value="C2">C2</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
     <div class="form" class="minus">
-      <label for="slider">Minusvalía: {{
-        alumnoForm.get('minusvalia').value }} %</label>
-      <input type="range" class="form-range" id="slider"
-        formControlName="minusvalia" min="0" max="100" step="1">
+        <label for="slider">Minusvalía: {{
+            alumnoForm.get('minusvalia').value }} %</label>
+        <input type="range" class="form-range" id="slider"
+            formControlName="minusvalia" min="0" max="100" step="1">
     </div>
 
     <div class="form">
-      <mat-form-field>
-        <input matInput placeholder="Otra Formación"
-          formControlName="otra_formacion" maxlength="100">
-      </mat-form-field>
+        <mat-form-field color="accent">
+            <textarea matInput placeholder="Otra Formación"
+                formControlName="otra_formacion"
+                name="otra_formacion"></textarea>
+        </mat-form-field>
     </div>
 
     <div mat-dialog-actions>
