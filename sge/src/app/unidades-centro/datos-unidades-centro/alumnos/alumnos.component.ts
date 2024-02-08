@@ -33,6 +33,8 @@ export class AlumnosComponent implements OnInit {
   FechaFilter = new FormControl();
   linkedinFilter = new FormControl();
 
+  listadoAlumnos: Alumno[]
+
 
   alumno: Alumno;
 

@@ -1,54 +1,76 @@
-<div class="container">
+<div class="container" style="height: 600px;">
   <h3 mat-dialog-title>Editar Vacante</h3>
 
-  <form class="mat-dialog-content" [formGroup]="vacantesForm">
+  <form class="mat-dialog-content" [formGroup]="vacantesForm" style="height: 600px;">
 
-      <div class="form">
-          <mat-form-field color="accent">
-              <input matInput placeholder="Id vacante" formControlName="id_vacante"
-                  name="id_vacante" readonly>
-          </mat-form-field>
-      </div>
+    <div class="form">
+      <mat-form-field>
+          <mat-label>Entidad</mat-label>
+          <mat-select formControlName="id_entidad" required>
+              <mat-option value="">Sin entidad</mat-option>
+              <mat-option *ngFor="let idE of entidad" [value]="idE.id_entidad">
+                  {{ idE.entidad }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
 
-      <div class="form">
-        <mat-form-field>
-            <mat-label>Entidad</mat-label>
-            <mat-select formControlName="id_entidad" required>
-                <mat-option value="">Sin entidad</mat-option>
-                <mat-option *ngFor="let idE of entidad" [value]="idE.id_entidad">
-                    {{ idE.entidad }}
-                </mat-option>
-            </mat-select>
+    <div class="form">
+      <mat-form-field>
+          <mat-label>Unidad Centro</mat-label>
+          <mat-select formControlName="id_unidad_centro" required>
+              <mat-option value="">Sin centro</mat-option>
+              <mat-option *ngFor="let idU of unidadCentro" [value]="idU.id_unidad_centro">
+                  {{ idU.unidad_centro }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+        <mat-form-field color="accent">
+            <input type="number" matInput placeholder="Número de vacantes"
+                formControlName="num_alumnos" name="num_alumnos" maxlength="255" min="0" max="10" onkeydown="return false;">
         </mat-form-field>
-      </div>
-
-      <div class="form">
-        <mat-form-field>
-            <mat-label>Unidad Centro</mat-label>
-            <mat-select formControlName="id_unidad_centro" required>
-                <mat-option value="">Sin centro</mat-option>
-                <mat-option *ngFor="let idU of unidadCentro" [value]="idU.id_unidad_centro">
-                    {{ idU.unidad_centro }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="form">
-          <mat-form-field color="accent">
-              <input matInput placeholder="Número de vacantes"
-                  formControlName="num_alumnos" name="num_alumnos" maxlength="255" min="0" max="30">
-          </mat-form-field>
-      </div>
+    </div>
 
 
-      <div mat-dialog-actions>
-          <button mat-button id="onSubmit" type="submit"
-              [disabled]="!vacantesForm.valid"
-              (click)="confirmEdit()">Guardar</button>
-          <button mat-button id="onNoClick" (click)="onNoClick()"
-              tabindex="-1">Cancelar</button>
+    <div style="margin-bottom: 100px;margin-top: 50px;">
+      <div id="alumnosTotal" style="float: left;">
+
+        <table>
+          <tr style="margin-bottom: 20px;">
+            <th>Id</th><th>Nombre</th>
+          </tr>
+          <tr *ngFor="let alumno of listadoAlumnos">
+            <td>{{alumno.id_alumno}}</td>
+            <td>{{alumno.nombre_completo_alumno}}</td>
+            <td><button mat-button><mat-icon>add</mat-icon></button></td>
+          </tr>
+        </table>
+
+
+
       </div>
+      <div id="alumnosVacantes" style="float: right;">
+        <table>
+          <tr>
+            <th>Id</th><th>Nombre</th>
+          </tr>
+          <tr *ngFor="let alumno of listadoVacantes">
+            <td>{{alumno.id_alumno}}</td>
+            <td>{{alumno.nombre_completo_alumno}}</td>
+            <td><button mat-button><mat-icon>delete</mat-icon></button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div mat-dialog-actions style="float: inline-start;">
+      <button mat-button id="onSubmit" type="submit" [disabled]="!vacantesForm.valid" (click)="confirmEdit()">Guardar</button>
+      <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+    </div>
+
 
   </form>
 </div>

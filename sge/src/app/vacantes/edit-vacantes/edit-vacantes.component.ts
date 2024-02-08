@@ -1,11 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { AlumnosService } from 'src/app/services/alumnos.service';
 import { CiclosService } from 'src/app/services/ciclos.service';
 import { EntidadesService } from 'src/app/services/entidades.service';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { VacantesService } from 'src/app/services/vacantes.service';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
+import { Permises } from 'src/app/shared/interfaces/api-response';
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
 import { Entidad } from 'src/app/shared/interfaces/entidad';
 import { UnidadesCentro } from 'src/app/shared/interfaces/unidades-centro';
@@ -15,15 +22,39 @@ import { CLOSE, ENTIDAD_UNIDADES_CENTRO, ERROR } from 'src/app/shared/messages';
 @Component({
   selector: 'app-edit-vacantes',
   templateUrl: './edit-vacantes.component.html',
+  styleUrls: ['./edit-vacantes.component.scss']
 })
 export class EditVacantesComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
+
+  AlumnoFilter = new FormControl();
+  nombreCompletoFilter = new FormControl();
+
+  alumno: Alumno;
+
+  permises: Permises;
+
+  selection: SelectionModel<Alumno>;
+
+  displayedColumns: string[];
+  private filterValues = {id_alumno: '',nombre_completo_alumno: ''};
+
 
   vacantesForm: FormGroup;
 
   entidad: Entidad[];
+  entidadActual: Vacante;
   unidadCentro: UnidadesCentro[];
 
+  listadoAlumnos: Alumno[];
+
+  listadoVacantes: Alumno[];
+
   ENTIDAD: String;
+
 
   constructor(
     public dialogRef: MatDialogRef<EditVacantesComponent>,
@@ -31,6 +62,7 @@ export class EditVacantesComponent implements OnInit {
     private vacantesService: VacantesService,
     private entidadesService: EntidadesService,
     private unidadesCentroService: UnidadesCentroService,
+    private alumnosService: AlumnosService,
     @Inject(MAT_DIALOG_DATA) public vacante: Vacante,
 
   ) { }
@@ -45,9 +77,18 @@ export class EditVacantesComponent implements OnInit {
     });
     this.getEntidades();
     this.getUnidadesCentro();
+    this.getAlumnos(this.vacante.id_unidad_centro);
   }
 
+  async getAlumnos(id_unidad_centro: number) {
+    const RESPONSE = await this.alumnosService.getAllAlumnos(id_unidad_centro).toPromise();
+    //this.permises = RESPONSE.permises;
+    console.log(RESPONSE)
+    if (RESPONSE.ok) {
+      this.listadoAlumnos = RESPONSE.data as Alumno[];
+    }
 
+  }
 
   async confirmEdit(){
     if (this.vacantesForm.valid) {

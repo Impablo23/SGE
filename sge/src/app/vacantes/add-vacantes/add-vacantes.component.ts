@@ -13,6 +13,7 @@ import { CLOSE, INVALID_FORM } from "src/app/shared/messages";
 @Component({
   selector: 'app-add-vacantes',
   templateUrl: './add-vacantes.component.html',
+  styleUrls: ['./add-vacantes.component.scss']
 })
 export class AddVacanteComponent implements OnInit {
 

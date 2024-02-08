@@ -1,0 +1,33 @@
+.container {
+  width: 56em;
+  //height: 24em;
+  text-align: center;
+  //padding-bottom: 10em;
+  height: 600px;
+}
+
+.mat-dialog-content {
+  margin-left: 1em;
+}
+
+::ng-deep.mat-dialog-actions {
+  display: block;
+  text-align: center;
+}
+
+.mat-dialog-title {
+  margin-bottom: 0;
+}
+
+#alumnosTotal{
+  width: 40%;
+  height: 250px;
+
+}
+
+#alumnosVacantes{
+  width: 40%;
+  height: 250px;
+
+}
+
