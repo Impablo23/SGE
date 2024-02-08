@@ -139,7 +139,7 @@ export class AlumnosComponent implements OnInit {
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.FechaFilter.valueChanges
+     this.FechaFilter.valueChanges
     .subscribe(value => {
         this.filterValues.fecha_nacimiento_alumno = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);

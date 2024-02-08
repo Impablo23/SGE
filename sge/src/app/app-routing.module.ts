@@ -68,6 +68,7 @@ const routes: Routes = [
   { path: 'niveles', loadChildren: () => import('./niveles/niveles.module').then(m => m.NivelesModule) },
   { path: 'unidades-dual', loadChildren: () => import('./unidades-dual/unidades-dual.module').then(m => m.UnidadesDualModule) },
   { path: 'unidades-centro', loadChildren: () => import('./unidades-centro/unidades-centro.module').then(m => m.UnidadesCentroModule) },
+  { path: 'vacantes', loadChildren: () => import('./vacantes/vacantes.module').then(m => m.VacantesModule) },
   { path: 'ciclos', loadChildren: () => import('./ciclos/ciclos.module').then(m => m.CiclosModule) },
 //  { path: 'unidades', loadChildren: () => import('./entidades/datos-entidad/unidades/unidades.module').then(m => m.UnidadesModule) },
   { path: 'motivos-nodual', loadChildren: () => import('./motivos-nodual/motivos-nodual.module').then(m => m.MotivosNodualModule) },

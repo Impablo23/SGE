@@ -1,0 +1,48 @@
+<div class="container">
+  <h3 mat-dialog-title>Añadir Vacante</h3>
+
+  <form class="mat-dialog-content" [formGroup]="vacantesForm">
+
+
+      <div class="form">
+        <mat-form-field>
+            <mat-label>Entidad</mat-label>
+            <mat-select formControlName="id_entidad" required>
+                <mat-option value="">Sin entidad</mat-option>
+                <mat-option *ngFor="let idE of entidad" [value]="idE.id_entidad">
+                    {{ idE.entidad }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field>
+            <mat-label>Unidad Centro</mat-label>
+            <mat-select formControlName="id_unidad_centro" required>
+                <mat-option value="">Sin centro</mat-option>
+                <mat-option *ngFor="let idU of unidadCentro" [value]="idU.id_unidad_centro">
+                    {{ idU.unidad_centro }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="Número de vacantes"
+                  formControlName="num_alumnos" name="num_alumnos" maxlength="255" min="0" max="30">
+          </mat-form-field>
+      </div>
+
+
+      <div mat-dialog-actions>
+          <button mat-button id="onSubmit" type="submit"
+              [disabled]="!vacantesForm.valid"
+              (click)="confirmAdd()">Guardar</button>
+          <button mat-button id="onNoClick" (click)="onNoClick()"
+              tabindex="-1">Cancelar</button>
+      </div>
+
+  </form>
+</div>
