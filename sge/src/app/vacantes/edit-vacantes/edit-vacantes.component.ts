@@ -6,11 +6,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { CiclosService } from 'src/app/services/ciclos.service';
 import { EntidadesService } from 'src/app/services/entidades.service';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { VacantesService } from 'src/app/services/vacantes.service';
+import { VacantesXAlumnosService } from 'src/app/services/vacantesxalumnos.service';
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { Permises } from 'src/app/shared/interfaces/api-response';
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
@@ -49,9 +51,10 @@ export class EditVacantesComponent implements OnInit {
   entidadActual: Vacante;
   unidadCentro: UnidadesCentro[];
 
-  listadoAlumnos: Alumno[];
 
+  listadoAlumnos: Alumno[];
   listadoVacantes: Alumno[];
+
 
   ENTIDAD: String;
 
@@ -63,9 +66,13 @@ export class EditVacantesComponent implements OnInit {
     private entidadesService: EntidadesService,
     private unidadesCentroService: UnidadesCentroService,
     private alumnosService: AlumnosService,
+    private vacantesXalumnosService: VacantesXAlumnosService,
     @Inject(MAT_DIALOG_DATA) public vacante: Vacante,
 
-  ) { }
+  ) {
+    this.listadoAlumnos = [];
+    this.listadoVacantes = [];
+   }
 
   ngOnInit(): void {
     this.ENTIDAD=ENTIDAD_UNIDADES_CENTRO;
@@ -94,8 +101,14 @@ export class EditVacantesComponent implements OnInit {
     if (this.vacantesForm.valid) {
       const familiaForm = this.vacantesForm.value;
 
+      const idAlumnos : number [] = this.listadoVacantes.map(alumno => {
+        return alumno.id_alumno;
+      });
+      console.log(idAlumnos);
+
       const RESPONSE = await this.vacantesService.editVacante(familiaForm).toPromise();
       if (RESPONSE.ok) {
+        const RESPONSE2 = await this.vacantesXalumnosService.insertarAlumnosSeleccionados(this.vacante.id_vacante, idAlumnos).toPromise()
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
         this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
       } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
@@ -117,6 +130,30 @@ export class EditVacantesComponent implements OnInit {
     if (RESPONSE.ok){
       this.unidadCentro = RESPONSE.data as UnidadesCentro[];
     }
+  }
+
+  async seleccionarAlumno(alumno: Alumno) {
+    // Se agrega el alumno a la lista de seleccionados
+    //if (!this.alumnosSeleccionados.includes(alumno)) {
+      this.listadoVacantes.push(alumno);
+    //}
+    // Se  elimina el alumno de la lista de la unidad
+    const index = this.listadoAlumnos.indexOf(alumno);
+    if (index !== -1) {
+      this.listadoAlumnos.splice(index, 1);
+    }
+  }
+
+  async quitarAlumno(alumno: Alumno) {
+    // Se quita el alumno de la lista de seleccionados
+    const index = this.listadoVacantes.indexOf(alumno);
+    if (index !== -1) {
+      this.listadoVacantes.splice(index, 1);
+    }
+    // Se devuelve a lista de la unidad
+    //if (!this.alumnadoUnidadElegida.includes(alumno)) {
+      this.listadoAlumnos.push(alumno);
+    //}
   }
 
 }

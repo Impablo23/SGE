@@ -45,7 +45,7 @@
           <tr *ngFor="let alumno of listadoAlumnos">
             <td>{{alumno.id_alumno}}</td>
             <td>{{alumno.nombre_completo_alumno}}</td>
-            <td><button mat-button><mat-icon>add</mat-icon></button></td>
+            <td><button mat-button (click)="seleccionarAlumno(alumno)"><mat-icon>add</mat-icon></button></td>
           </tr>
         </table>
 
@@ -60,7 +60,7 @@
           <tr *ngFor="let alumno of listadoVacantes">
             <td>{{alumno.id_alumno}}</td>
             <td>{{alumno.nombre_completo_alumno}}</td>
-            <td><button mat-button><mat-icon>delete</mat-icon></button></td>
+            <td><button mat-button (click)="quitarAlumno(alumno)"><mat-icon>delete</mat-icon></button></td>
           </tr>
         </table>
       </div>
