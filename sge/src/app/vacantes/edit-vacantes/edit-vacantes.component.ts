@@ -133,15 +133,16 @@ export class EditVacantesComponent implements OnInit {
   }
 
   async seleccionarAlumno(alumno: Alumno) {
-    // Se agrega el alumno a la lista de seleccionados
-    //if (!this.alumnosSeleccionados.includes(alumno)) {
+    // este if para controlar el numero de vacantes que pueden entrar en el listado
+    if (this.listadoVacantes.length<this.vacante.num_alumnos){
       this.listadoVacantes.push(alumno);
-    //}
-    // Se  elimina el alumno de la lista de la unidad
-    const index = this.listadoAlumnos.indexOf(alumno);
-    if (index !== -1) {
-      this.listadoAlumnos.splice(index, 1);
+
+      const index = this.listadoAlumnos.indexOf(alumno);
+      if (index !== -1) {
+        this.listadoAlumnos.splice(index, 1);
+      }
     }
+
   }
 
   async quitarAlumno(alumno: Alumno) {
