@@ -85,6 +85,7 @@ export class EditVacantesComponent implements OnInit {
     this.getEntidades();
     this.getUnidadesCentro();
     this.getAlumnos(this.vacante.id_unidad_centro);
+    // this.getAlumnosUnidadElegida(this.vacante.id_unidad_centro)
   }
 
   async getAlumnos(id_unidad_centro: number) {
@@ -99,14 +100,14 @@ export class EditVacantesComponent implements OnInit {
 
   async confirmEdit(){
     if (this.vacantesForm.valid) {
-      const familiaForm = this.vacantesForm.value;
+      const vacanteForm = this.vacantesForm.value;
 
       const idAlumnos : number [] = this.listadoVacantes.map(alumno => {
         return alumno.id_alumno;
       });
       console.log(idAlumnos);
 
-      const RESPONSE = await this.vacantesService.editVacante(familiaForm).toPromise();
+      const RESPONSE = await this.vacantesService.editVacante(vacanteForm).toPromise();
       if (RESPONSE.ok) {
         const RESPONSE2 = await this.vacantesXalumnosService.insertarAlumnosSeleccionados(this.vacante.id_vacante, idAlumnos).toPromise()
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
@@ -157,4 +158,20 @@ export class EditVacantesComponent implements OnInit {
     //}
   }
 
+  async getAlumnosUnidadElegida(id_unidad_centro: number) {
+    const RESPONSE = await this.vacantesXalumnosService.getAlumnado(id_unidad_centro).toPromise();
+    if (RESPONSE.ok) {
+      RESPONSE.data.forEach((alumno) => {
+        if (alumno["estado"] == 0) {
+          this.listadoAlumnos.push(alumno);
+        } else {
+          this.listadoVacantes.push(alumno);
+          // Se incrementa el contador de elegidos
+
+        }
+      });
+
+  }
+
+}
 }

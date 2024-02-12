@@ -24,6 +24,11 @@ export class VacantesXAlumnosService {
   insertarAlumnosSeleccionados(id_vacante: number, idAlumnos: number[]) {
     console.log({idAlumnos})
     const body = JSON.stringify({ id_vacante: id_vacante, listadoVacantes: idAlumnos });
-    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?`, body, { headers: this.commonService.headers });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
+  }
+
+  getAlumnado(id_unidad_centro: number){
+    const body = JSON.stringify({id_unidad_centro: id_unidad_centro });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=buscar`, body, { headers: this.commonService.headers });
   }
 }
