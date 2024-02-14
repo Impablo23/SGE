@@ -23,7 +23,7 @@ export class DeleteVacantesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.ENTIDAD = ENTIDAD_UNIDADES_CENTRO;
+    this.ENTIDAD = 'Vacante';
   }
 
   onNoClick(): void {
